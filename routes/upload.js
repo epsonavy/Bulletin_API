@@ -34,11 +34,14 @@ var token = req.body.token || req.query.token || req.headers['x-access-token'];
   }
 });
 
+
+
 router.post('/', multipartMiddleware, function(req, res){
 	var files = req.files;
 	console.log(files.file);
 	var upload = new Upload();
 	var id = upload._id;
+
 
 	fs.createReadStream(files.file.path).pipe(fs.createWriteStream(config.static_folder + id + ".png"));
 	fs.unlink(files.file.path, function(err){
