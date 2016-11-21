@@ -75,8 +75,7 @@ router.post('/update', function(req, res, next) {
   }, function(err, user){
     if(err) throw err;
     if(user){
-        if(req.body.first_name) user.first_name = req.body.first_name;
-        if(req.body.last_name) user.last_name = req.body.last_name;
+        if(req.body.display_name) user.display_name = req.body.display_name;
         if(req.body.profile_picture) user.profile_picture = req.body.profile_picture;
         user.save(function(err){
           if(err) throw err;
