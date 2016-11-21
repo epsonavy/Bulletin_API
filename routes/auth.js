@@ -10,7 +10,6 @@ var jwt = require('jsonwebtoken');
 
 
 router.post('/', function(req, res) {
-
   User.findOne({
     email: req.body.email
   }, function(err, user) {
@@ -18,10 +17,12 @@ router.post('/', function(req, res) {
     if (err) throw err;
 
     if (!user) {
+      res.status(418);
       res.json({ success: false, message: 'Email was not found!' });
     } else if (user) {
 
       if (user.password != req.body.password) {
+        res.status(400);
         res.json({ success: false, message: 'Password does not match email!' });
       } else {
 
@@ -29,7 +30,7 @@ router.post('/', function(req, res) {
           expiresIn: req.app.get('token_exire') 
         });
 
-
+        res.status(200);
         res.json({
           success: true,
           message: 'Authentication successful!',
