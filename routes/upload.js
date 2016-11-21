@@ -48,6 +48,7 @@ router.post('/', multipartMiddleware, function(req, res){
 		if (err) throw err;
 	})
 	upload.url = config.site + "static/" + id + ".png";
+	upload.userId = req.id;
 	upload.save(function(err, user){
 		if(err) throw err;
 
