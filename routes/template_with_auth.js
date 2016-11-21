@@ -13,7 +13,7 @@ var token = req.body.token || req.query.token || req.headers['x-access-token'];
     jwt.verify(token, req.app.get('api_secret'), function(err, decoded) {      
       if (err) {
       	console.log(err);
-        return res.json({ message: 'Failed to authenticate token.' });    
+        return res.status(403).json({ message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
         req.id = decoded;

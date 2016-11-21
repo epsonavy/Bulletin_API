@@ -43,6 +43,33 @@ router.post('/', function(req, res) {
   });
 });
 
+router.get('/', function(req, res){
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  if (token) {
+
+    jwt.verify(token, req.app.get('api_secret'), function(err, decoded) {      
+      if (err) {
+        console.log(err);
+        return res.status(403).json({ message: 'Failed to authenticate token.' });    
+      } else {
+
+        return res.status(200).send({
+          success: true,
+          message: 'You have a valid token!'
+        });
+      }
+    });
+
+  } else {
+
+    return res.status(403).send({ 
+        success: false, 
+        message: 'No token provided.' 
+    });
+  }
+});
+
 
 
 
