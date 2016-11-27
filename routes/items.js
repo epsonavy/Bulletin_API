@@ -63,7 +63,7 @@ router.get('/', function(req, res, next) {
           res.status(200);
           return res.json(items);
       }else{
-        res.status(200);
+        res.status(418);
         return res.json({
           success: true,
           message: "You have no items to display!"
