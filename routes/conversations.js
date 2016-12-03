@@ -38,7 +38,7 @@ router.get('/', function(req, res, next) {
       res.status(200);
       return res.json(conversation);
     }else{
-      res.status(200);
+      res.status(418);
       return res.json({
         success: true,
         message: "Unable to find a conversation by that ID!"
@@ -54,7 +54,7 @@ router.get('/', function(req, res, next) {
             res.status(200);
             return res.json(conversations);
         }else{
-            res.status(200);
+            res.status(418);
             return res.json({
               success: false,
               message: "You have no conversations!"
@@ -106,7 +106,7 @@ router.post('/new', function(req, res){
             });
 
           }else{
-            res.status(400);
+            res.status(418);
             return res.json({
               success: false,
               message: "There is no item you'd like to have a conversation about!"
@@ -144,7 +144,7 @@ router.get('/messages', function(req, res){
         res.status(200);
         return res.json(messages);
       }else{
-        res.status(200);
+        res.status(418);
         return res.json({
           success: true,
           message: "No messages found for that range!"
@@ -165,7 +165,7 @@ router.get('/messages', function(req, res){
         res.status(200);
         return res.json(messages);
       }else{
-        res.status(200);
+        res.status(418);
         return res.json({
           success: true,
           message: "No messages found for that range!"
