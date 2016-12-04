@@ -1,6 +1,7 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
 var Item = require('../models/item.js');
+var User = require('../models/user.js');
 var config = require('../config.js');
 var router = express.Router();
 
@@ -28,6 +29,7 @@ var token = req.body.token || req.query.token || req.headers['x-access-token'];
 router.get('/all', function(req, res, next){
   Item.find({}, function(err, items){
     if(err) throw err;
+
     if(items){
       res.status(200);
       return res.json(items);
@@ -125,22 +127,36 @@ router.post('/new', function(req, res, next){
     })
   }
 
-  var n = new Item({
+
+  User.findOne({
+  	_id: req.id
+  }, function(err, user){
+  	if (err) throw err;
+  	if (user){
+  		  var n = new Item({
     userId: req.id,
     title: req.body.title,
     description: req.body.description,
     pictures: pictures,
     expiration: expiration,
-    price: req.body.price
+    price: req.body.price,
+    user: req.id,
+    userName: user.display_name,
+    userPicture: user.profile_picture
+
   }, function(err, item){
     if(err) throw err;
   });
-
-  n.save(function(err){
+  		  n.save(function(err){
         if(err) throw err;
           res.status(200);
           res.json(n);
     });
+
+  	}
+
+  })
+
 
 
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
 var Message = require('../models/message.js');
+var User = require('../models/user.js');
 var Conversation = require('../models/conversation.js');
 var Item = require('../models/item.js');
 var router = express.Router();
@@ -93,9 +94,26 @@ router.post('/new', function(req, res){
         }, function(err, item){
           if(err) throw err;
           if(item){
-            var n = new Conversation({
+            User.findOne({
+              _id: req.id
+            }, function(err, userSelf){
+              if (err) throw err;
+              if (userSelf){
+                User.findOne({
+                  _id: item.userId
+                }, function(err, userWith){
+                  if (err) throw err;
+                  if(userWith){
+                    var n = new Conversation({
                 userStart: req.id,
                 userWith: item.userId,
+                userWithProfilePicture: userWith.profile_picture,
+                userWithName: userWith.display_name,
+                userStartName: userSelf.display_name,
+                userStartProfilePicture: userSelf.profile_picture,
+                itemTitle: item.title,
+                itemPrice: item.price,
+                itemDescription: item.description,
                 itemId: item._id,
                 messageCount: 0
             });
@@ -105,6 +123,10 @@ router.post('/new', function(req, res){
               return res.json(n);
             });
 
+                  }
+                });
+              }
+            });
           }else{
             res.status(418);
             return res.json({

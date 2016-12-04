@@ -6,5 +6,7 @@ module.exports =  db.model('Item', new require('mongoose').Schema({
 	description: String,
 	pictures: [String],
 	price: Number,
-	expiration: Number
+	expiration: Number,
+	userName: String,
+	userPicture: String
 }));

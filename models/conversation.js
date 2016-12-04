@@ -4,5 +4,13 @@ module.exports =  db.model('Conversation', new require('mongoose').Schema({
 	userStart: String,
 	userWith: String,
 	itemId: String, //item it is talking about
-	messageCount: Number
+	itemPicture: String,
+	itemTitle: String,
+	itemDescription: String,
+	itemPrice: Number,
+	messageCount: Number,
+	userStartName: String,
+	userStartProfilePicture: String,
+	userWithName: String,
+	userWithProfilePicture: String
 }));
