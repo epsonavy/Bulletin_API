@@ -116,6 +116,7 @@ router.post('/new', function(req, res){
                 itemDescription: item.description,
                 itemId: item._id,
                 lastMessage: "Start your conversation!",
+                lastTimestamp: (new Date).getTime(),
                 messageCount: 0
             });
             n.save(function(err){
@@ -222,6 +223,7 @@ router.post('/messages', function(req, res){
     if(err) throw err;
     if(conversation){
       conversation.lastMessage = req.body.message
+      conversation.lastTimestamp = (new Date).getTime()
       var n = new Message({
         userId: req.id,
         conversationId: conversation._id,
