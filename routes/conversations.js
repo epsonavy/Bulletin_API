@@ -115,6 +115,7 @@ router.post('/new', function(req, res){
                 itemPrice: item.price,
                 itemDescription: item.description,
                 itemId: item._id,
+                lastMessage: "Start your conversation!",
                 messageCount: 0
             });
             n.save(function(err){
@@ -220,6 +221,7 @@ router.post('/messages', function(req, res){
   }, function(err, conversation){
     if(err) throw err;
     if(conversation){
+      conversation.lastMessage = req.body.message
       var n = new Message({
         userId: req.id,
         conversationId: conversation._id,

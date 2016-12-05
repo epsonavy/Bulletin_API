@@ -9,6 +9,7 @@ module.exports =  db.model('Conversation', new require('mongoose').Schema({
 	itemDescription: String,
 	itemPrice: Number,
 	messageCount: Number,
+	lastMessage: String,
 	userStartName: String,
 	userStartProfilePicture: String,
 	userWithName: String,
