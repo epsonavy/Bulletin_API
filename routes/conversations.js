@@ -160,8 +160,8 @@ router.get('/messages', function(req, res){
     console.log(req.query.from +" from " );
     console.log(req.query.to + " to");
     Message.find({
-      $and: [ { messageIndex: { $lte: req.query.to}}, {messageIndex: { $gte: req.query.from}}],
-      conversationId: req.query.conversationId
+      $and: [ { messageIndex: { $lte: req.query.to}}, {messageIndex: { $gte: req.query.from}}, {conversationId: req.query.conversationId}],
+      
     }, function(err, messages){
       if(err) throw err;
 
@@ -182,8 +182,7 @@ router.get('/messages', function(req, res){
 
   }else{
     Message.find({
-      messageIndex: { $gte: req.query.from },
-      conversationId: req.query.conversationId
+      $and: [ {conversationId: req.query.conversationId}, {messageIndex: { $gte: req.query.from } }]
     }, function(err, messages){
       if(err) throw err;
 
