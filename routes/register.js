@@ -50,6 +50,7 @@ router.post('/', function(req, res, next) {
 						email: req.body.email,
 						password: req.body.password,
 						profile_picture: picture,
+						deviceId: "default",
 						display_name: req.body.display_name,
 						conversations: [],
 						items: [],

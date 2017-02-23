@@ -12,6 +12,7 @@ var register = require('./routes/register')
 var items = require('./routes/items');
 var conversations = require('./routes/conversations');
 var upload = require('./routes/upload');
+var push = require('./routes/push');
 
 var toobusy = require('toobusy-js');
 
@@ -48,6 +49,7 @@ app.use('/users', users);
 app.use('/items', items);
 app.use('/conversations', conversations);
 app.use('/upload', upload);
+app.use('/push', push);
 
 app.get('/fakeUser', function(req, res) {
 

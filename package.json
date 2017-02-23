@@ -23,6 +23,6 @@
     "multiparty" : "*",
     "connect-multiparty" : "*",
     "apn" : "*",
-    "gcm" : "*"
+    "node-gcm-service" : "*"
   }
 }

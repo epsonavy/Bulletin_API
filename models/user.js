@@ -7,5 +7,6 @@ module.exports = db.model('User', new require('mongoose').Schema({
 	display_name: String,
 	conversations: [Number], //Conversations they are a part of
 	items: [Number], //What they have for sale
+	deviceId: String,
 	admin: Boolean //Are they adminstrators?
 }));

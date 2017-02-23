@@ -5,6 +5,10 @@ var User = require('../models/user.js');
 var Conversation = require('../models/conversation.js');
 var Item = require('../models/item.js');
 var router = express.Router();
+//var apn = require('apn');
+var gcm = require('node-gcm-service');
+//var config = require('../config.js');
+//we'll send
 
 router.use(function(req, res, next){
 var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -125,6 +129,16 @@ router.post('/new', function(req, res){
               return res.json(n);
             });
 
+            var notifyConversation = new gcm.Message({ data: { title : 'Bulletin', message : 'You have a new conversation about ' + item.title}, delay_while_idle: false, dry_run: false});
+            var sender = new gcm.Sender();
+            sender.setAPIKey(config.android_api_key);
+            if(userWith.deviceId != "default"){
+              sender.sendMessage(message.toString(), userWith.deviceId, true, function(err, data){
+                  if(err) throw err;
+              });
+          }
+
+
                   }
                 });
               }
@@ -233,12 +247,44 @@ router.post('/messages', function(req, res){
         message: req.body.message
       });
 
+
       n.save(function(err){
         if(err) throw err;
 
         conversation.save(function(err){
           if(err) throw err;
+        if (conversation.userWith == req.id){
+          //send to userStart
+          User.findOne({ _id : userStart}, function(err, user){
+            if(err) throw err;
+            if(user){
+                          var notifyConversation = new gcm.Message({ data: { title : 'Bulletin', message : 'You have a new message!'}, delay_while_idle: false, dry_run: false});
+            var sender = new gcm.Sender();
+            sender.setAPIKey(config.android_api_key);
+            if(userWith.deviceId != "default"){
+              sender.sendMessage(message.toString(), user.deviceId, true, function(err, data){
+                  if(err) throw err;
+              });
+          }
+            }
+          });
+        }else{
 
+            User.findOne({ _id : userStart}, function(err, user){
+            if(err) throw err;
+            if(user){
+                          var notifyConversation = new gcm.Message({ data: { title : 'Bulletin', message : 'You have a new message!' }, delay_while_idle: false, dry_run: false});
+            var sender = new gcm.Sender();
+            sender.setAPIKey(config.android_api_key);
+            if(userWith.deviceId != "default"){
+              sender.sendMessage(message.toString(), user.deviceId, true, function(err, data){
+                  if(err) throw err;
+              });
+          }
+            }
+          });
+
+        }
           res.status(200);
           return res.json(n);
         });
